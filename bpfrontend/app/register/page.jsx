@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import axios from "../../utils/axios";
+import api from "../../utils/axios";
 import "../../styles/global.css";
 
 export default function RegisterPage() {
@@ -17,7 +17,7 @@ export default function RegisterPage() {
     setMessage("");
     
     try {
-      await axios.post("/register/", { username, email, password });
+      await api.post("/register/", { username, email, password });
       setMessage({ type: "success", text: "Registration successful! You can now login." });
       setUsername("");
       setEmail("");
