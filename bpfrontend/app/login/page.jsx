@@ -1,27 +1,34 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // <-- import router
 import axios from "../../utils/axios";
 import "../../styles/global.css";
 
 export default function LoginPage() {
+  const router = useRouter(); // <-- initialize router
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  console.log('testing')
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setMessage("");
+    setMessage(""); 
 
     try {
       const res = await axios.post("/token/", { username, password });
       localStorage.setItem("access", res.data.access);
       localStorage.setItem("refresh", res.data.refresh);
       setMessage({ type: "success", text: "Login successful!" });
+
+      // clear form
       setUsername("");
       setPassword("");
+
+      // redirect to /posts
+      router.push("/posts"); // <-- this triggers the page change
     } catch (err) {
       console.error(err);
       setMessage({ 
@@ -35,7 +42,6 @@ export default function LoginPage() {
 
   return (
     <div className="register-container">
-      {/* Animated background blobs */}
       <div className="blob blob1"></div>
       <div className="blob blob2"></div>
       <div className="blob blob3"></div>

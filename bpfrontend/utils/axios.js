@@ -1,3 +1,4 @@
+// utils/axios.js
 import axios from "axios";
 
 const api = axios.create({
@@ -7,13 +8,10 @@ const api = axios.create({
   },
 });
 
-// attach token if exists
 api.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    const token = localStorage.getItem("access"); // must match login storage key
+    if (token) config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });

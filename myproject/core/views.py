@@ -22,8 +22,10 @@ class IsOwner(BasePermission):
         # Only allow the owner to edit/delete
         return obj.owner == request.user
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by('id')  # order by ID to fix pagination warning
     serializer_class = UserSerializer
+
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
